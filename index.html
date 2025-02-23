@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
- <base target="_top">
-  <title>Bike Rental Calculation</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    
-<style>
+    <base target="_top">
+    <title>Bike Rental Calculation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
         body {
             font-family: 'Roboto', sans-serif;
@@ -28,7 +27,7 @@
             text-align: center;
         }
     </style>
-
+</head>
 <body class="bg-pink-100 flex justify-center items-center min-h-screen">
     <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl">
         <h1 class="gradient-text mb-4">Bike Model Yamaha FZS - V3</h1>
@@ -51,11 +50,11 @@
             </tr>
             <tr class="border-b">
                 <th class="text-left py-2">Raincoat</th>
-                <td class="py-2"><input type="checkbox" align="center" id="raincoat" class="border rounded-lg p-20"></td>
+                <td class="py-2"><input type="checkbox" id="raincoat" class="border rounded-lg p-2"></td>
             </tr>
             <tr class="border-b">
                 <th class="text-left py-2">1+1 Helmet</th>
-                <td class="py-2"><input type="checkbox" align="center" id="helmet" class="border rounded-lg p-20"></td>
+                <td class="py-2"><input type="checkbox" id="helmet" class="border rounded-lg p-2"></td>
             </tr>
             <tr class="border-b">
                 <th class="text-left py-2">Time Difference (Hours)</th>
@@ -90,34 +89,38 @@
                 <td class="py-2"><span class="non-editable highlight-text" id="withoutPetrolCost">₹ 2,500.00/-</span></td>
             </tr>
         </table>
-        <button onclick="calculateTotal()" align="center" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Calculate</button>
+        <button onclick="calculateTotal()" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Calculate</button>
     </div>
+
 <script>
-  function calculateTotal() {
-    const formData = {
-      expectedEndTime: document.getElementById("expectedEndTime").value,
-      startOdometer: document.getElementById("startOdometer").value,
-      endOdometer: document.getElementById("endOdometer").value,
-      raincoat: document.getElementById("raincoat").checked,
-      helmet: document.getElementById("helmet").checked,
-      timeDifference: document.getElementById("timeDifference").value, // Include timeDifference
-    };
+function calculateTotal() {
+    const deposited = 2500;
+    const startOdometer = parseFloat(document.getElementById("startOdometer").value) || 0;
+    const endOdometer = parseFloat(document.getElementById("endOdometer").value) || 0;
+    const raincoat = document.getElementById("raincoat").checked;
+    const helmet = document.getElementById("helmet").checked;
+    const timeDifference = parseFloat(document.getElementById("timeDifference").value) || 0;
 
-    google.script.run
-      .withSuccessHandler(updateResults)
-      .calculateTotal(formData);
-  }
+    const distance = endOdometer - startOdometer;
+    const petrolCost = 2.7 * distance;
+    const extraKm = distance > 150 ? distance - 150 : 0;
+    const limitExceedCost = distance > 150 ? extraKm * 5 : 0;
+    const timingExceedCost = timeDifference * 69;
+    const raincoatCost = raincoat ? 50 : 0;
+    const helmetCost = helmet ? 50 : 0;
+    const totalReturnCost = deposited - (timingExceedCost + limitExceedCost + raincoatCost + helmetCost + petrolCost);
+    const withoutPetrolCost = deposited - (timingExceedCost + limitExceedCost + raincoatCost + helmetCost);
 
-  function updateResults(result) {
-    document.getElementById("distance").value = result.distance;
-    document.getElementById("petrolCost").textContent = result.petrolCost;
-    document.getElementById("extraKm").textContent = result.extraKm;
-    document.getElementById("limitExceedCost").textContent = result.limitExceedCost;
-    document.getElementById("timeDifference").value = result.timeDifference;
-    document.getElementById("timingExceedCost").textContent = result.timingExceedCost;
-    document.getElementById("totalReturnCost").textContent = result.totalReturnCost;
-    document.getElementById("withoutPetrolCost").textContent = result.withoutPetrolCost;
-  }
+    document.getElementById("distance").textContent = distance.toFixed(2) + " Kilometers";
+    document.getElementById("petrolCost").textContent = "₹" + petrolCost.toFixed(2);
+    document.getElementById("extraKm").textContent = extraKm.toFixed(2);
+    document.getElementById("limitExceedCost").textContent = "₹" + limitExceedCost.toFixed(2);
+    document.getElementById("timeDifference").value = timeDifference.toFixed(2);
+    document.getElementById("timingExceedCost").textContent = "₹" + timingExceedCost.toFixed(2);
+    document.getElementById("totalReturnCost").textContent = "₹" + totalReturnCost.toFixed(2);
+    document.getElementById("withoutPetrolCost").textContent = "₹" + withoutPetrolCost.toFixed(2);
+}
 </script>
+
 </body>
 </html>
