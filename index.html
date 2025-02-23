@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <base target="_top">
+  <title>Bike Rental Calculation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .highlight-text {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #ec4899, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-text {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #ec4899, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+    </style>
+
+<body class="bg-pink-100 flex justify-center items-center min-h-screen">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl">
+        <h1 class="gradient-text mb-4">Bike Model Yamaha FZS - V3</h1>
+        <table class="w-full mb-4">
+            <tr class="border-b">
+                <th class="text-left py-2">Deposited</th>
+                <td class="py-2"><span class="non-editable highlight-text" id="deposited">₹ 2,500.00/-</span></td>
+            </tr>
+            <tr class="border-b">
+                <th class="text-left py-2">Expected End Time</th>
+                <td class="py-2"><input type="time" id="expectedEndTime" value="20:00" class="border rounded-lg p-2 w-full"></td>
+            </tr>
+            <tr class="border-b">
+                <th class="text-left py-2">Start Odometer</th>
+                <td class="py-2"><input type="number" id="startOdometer" class="border rounded-lg p-2 w-full"></td>
+            </tr>
+            <tr class="border-b">
+                <th class="text-left py-2">End Odometer</th>
+                <td class="py-2"><input type="number" id="endOdometer" class="border rounded-lg p-2 w-full"></td>
+            </tr>
+            <tr class="border-b">
+                <th class="text-left py-2">Raincoat</th>
+                <td class="py-2"><input type="checkbox" align="center" id="raincoat" class="border rounded-lg p-20"></td>
+            </tr>
+            <tr class="border-b">
+                <th class="text-left py-2">1+1 Helmet</th>
+                <td class="py-2"><input type="checkbox" align="center" id="helmet" class="border rounded-lg p-20"></td>
+            </tr>
+            <tr class="border-b">
+                <th class="text-left py-2">Time Difference (Hours)</th>
+                <td class="py-2"><input type="number" id="timeDifference" value="0" class="border rounded-lg p-2 w-full"></td>
+            </tr>
+            <tr class="border-b">
+                <th class="text-left py-2">Distance Travelled (KM)</th>
+                <td class="py-2"><span class="non-editable highlight-text" id="distance">00 Kilometers</span></td>
+            </tr>
+            <tr class="border-b">
+                <th class="text-left py-2">Petrol Used Cost</th>
+                <td class="py-2"><span class="non-editable highlight-text" id="petrolCost">₹0.00</span></td>
+            </tr>
+            <tr class="border-b">
+                <th class="text-left py-2">Extra KM</th>
+                <td class="py-2"><span class="non-editable highlight-text" id="extraKm">0</span></td>
+            </tr>
+            <tr class="border-b">
+                <th class="text-left py-2">Limit Exceed Cost</th>
+                <td class="py-2"><span class="non-editable highlight-text" id="limitExceedCost">₹0.00</span></td>
+            </tr>
+            <tr class="border-b">
+                <th class="text-left py-2">Timing Exceed Cost</th>
+                <td class="py-2"><span class="non-editable highlight-text" id="timingExceedCost">₹0.00</span></td>
+            </tr>
+            <tr class="border-b">
+                <th class="text-left py-2">Total Return Cost</th>
+                <td class="py-2"><span class="non-editable highlight-text" id="totalReturnCost">₹ 2,500.00/-</span></td>
+            </tr>
+            <tr class="border-b">
+                <th class="text-left py-2">Without Petrol Cost</th>
+                <td class="py-2"><span class="non-editable highlight-text" id="withoutPetrolCost">₹ 2,500.00/-</span></td>
+            </tr>
+        </table>
+        <button onclick="calculateTotal()" align="center" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Calculate</button>
+    </div>
+<script>
+  function calculateTotal() {
+    const formData = {
+      expectedEndTime: document.getElementById("expectedEndTime").value,
+      startOdometer: document.getElementById("startOdometer").value,
+      endOdometer: document.getElementById("endOdometer").value,
+      raincoat: document.getElementById("raincoat").checked,
+      helmet: document.getElementById("helmet").checked,
+      timeDifference: document.getElementById("timeDifference").value, // Include timeDifference
+    };
+
+    google.script.run
+      .withSuccessHandler(updateResults)
+      .calculateTotal(formData);
+  }
+
+  function updateResults(result) {
+    document.getElementById("distance").value = result.distance;
+    document.getElementById("petrolCost").textContent = result.petrolCost;
+    document.getElementById("extraKm").textContent = result.extraKm;
+    document.getElementById("limitExceedCost").textContent = result.limitExceedCost;
+    document.getElementById("timeDifference").value = result.timeDifference;
+    document.getElementById("timingExceedCost").textContent = result.timingExceedCost;
+    document.getElementById("totalReturnCost").textContent = result.totalReturnCost;
+    document.getElementById("withoutPetrolCost").textContent = result.withoutPetrolCost;
+  }
+</script>
+</body>
+</html>
