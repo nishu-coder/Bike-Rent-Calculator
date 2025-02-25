@@ -157,7 +157,7 @@
             <span class="ml-3 text-lg font-bold">Use Without Petrol Cost</span>
         </div>
         <div id="paymentLinkContainer" class="mt-4" style="display: none;">
-            <p class="text-lg font-bold">Scan to Pay: <a id="paymentLink" href="" target="_blank" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Pay Now</a></p>
+            <p class="text-lg font-bold">Scan to Pay: <a id="paymentLink" href="intent://scan/#Intent;scheme=upi;package=com.phonepe.app;end" target="_blank" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Pay Now</a></p>
         </div>
     </div>
 
@@ -219,8 +219,7 @@ function togglePaymentAmount() {
     const paymentAmount = useWithoutPetrolCost ? withoutPetrolCost : totalReturnCost;
     const paymentLink = document.getElementById("paymentLink");
     const paymentLinkContainer = document.getElementById("paymentLinkContainer");
-    const paymentUrl = `upi://pay?pa=paytmqr5e1kfi@ptys&pn=Your%20Name&am=${paymentAmount}&cu=INR`;
-    paymentLink.href = paymentUrl;
+    paymentLink.href = "intent://scan/#Intent;scheme=upi;package=com.phonepe.app;end";
     paymentLinkContainer.style.display = "block";
 
     // Update toggle icon
