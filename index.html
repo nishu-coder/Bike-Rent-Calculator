@@ -34,8 +34,8 @@
             -webkit-text-fill-color: transparent;
         }
         #qr-video {
-            width: 50%;
-            height: auto;
+            width: 4rem;
+            height: 4rem;
             border-radius: 0.5rem;
         }
     </style>
@@ -148,9 +148,8 @@
             <button onclick="calculateTotal()" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Calculate</button>
             <a href="https://www.rentrip.in/dealer/profile/d40929245" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Book Again</a>
         </div>
-        <div id="qrScannerContainer" class="mt-4">
-            <p class="text-lg font-bold">Scan to Pay:</p>
-            <video id="qr-video" class="border border-pink-500 rounded-lg"></video>
+        <div id="qrScannerContainer" class="mt-4" style="display: none;">
+            <p class="text-lg font-bold flex items-center justify-center">Scan to Pay: <video id="qr-video" class="border border-pink-500 rounded-lg ml-2"></video></p>
         </div>
     </div>
 
@@ -200,6 +199,10 @@ function calculateTotal() {
     } else {
         document.getElementById("cashCollectedRow").style.display = "none";
     }
+
+    // Show QR scanner
+    document.getElementById("qrScannerContainer").style.display = "block";
+    openUPIScan();
 }
 
 function openUPIScan() {
@@ -215,10 +218,6 @@ function openUPIScan() {
         }
     });
 }
-
-document.addEventListener('DOMContentLoaded', (event) => {
-    openUPIScan();
-});
 </script>
 
 </body>
