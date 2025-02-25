@@ -33,7 +33,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        }
     </style>
 </head>
 <body style="background:repeating-linear-gradient(45deg, #007bff 10px, #28a745 20px);" class="flex justify-center items-center min-h-screen">
@@ -143,6 +142,22 @@
             <button onclick="calculateTotal()" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Calculate</button>
             <a href="https://www.rentrip.in/dealer/profile/d40929245" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Book Again</a>
         </div>
+        <div class="mt-4">
+            <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="useWithoutPetrolCost" class="sr-only peer" onchange="togglePaymentAmount()">
+                <div class="w-14 h-8 bg-[#ffd0fd] rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:left-1 after:bg-black after:border after:rounded-full after:h-6 after:w-6 after:transition-all">
+                    <div id="toggleIcon" class="absolute top-1 left-1 w-6 h-6 flex items-center justify-center">
+                        <i class="fas fa-money-bill-wave text-black"></i>
+                    </div>
+                </div>
+            </label>
+            <span class="ml-3 text-lg font-bold">Use Without Petrol Cost</span>
+        </div>
+        <div id="paymentLinkContainer" class="mt-4" style="display: none;">
+            <p class="text-lg font-bold">Scan to Pay: &nbsp;&nbsp;&nbsp;
+            <a id="paymentLink" href="" target="_blank" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Pay Now</a>
+            </p>
+        </div>
     </div>
 
 <script>
@@ -190,6 +205,29 @@ function calculateTotal() {
         document.getElementById("cashCollectedRow").style.display = "table-row";
     } else {
         document.getElementById("cashCollectedRow").style.display = "none";
+    }
+
+    // Show payment link
+    togglePaymentAmount();
+}
+
+function togglePaymentAmount() {
+    const useWithoutPetrolCost = document.getElementById("useWithoutPetrolCost").checked;
+    const totalReturnCost = parseFloat(document.getElementById("totalReturnCost").textContent.replace(/[^0-9.-]+/g,""));
+    const withoutPetrolCost = parseFloat(document.getElementById("withoutPetrolCost").textContent.replace(/[^0-9.-]+/g,""));
+    const paymentAmount = useWithoutPetrolCost ? withoutPetrolCost : totalReturnCost;
+    const paymentLink = document.getElementById("paymentLink");
+    const paymentLinkContainer = document.getElementById("paymentLinkContainer");
+    const paymentUrl = `upi://pay?pa=paytmqr5e1kfi@ptys&pn=Your%20Name&am=${paymentAmount}&cu=INR`;
+    paymentLink.href = paymentUrl;
+    paymentLinkContainer.style.display = "block";
+
+    // Update toggle icon
+    const toggleIcon = document.getElementById("toggleIcon");
+    if (useWithoutPetrolCost) {
+        toggleIcon.innerHTML = '<i class="fas fa-gas-pump text-black"></i>';
+    } else {
+        toggleIcon.innerHTML = '<i class="fas fa-money-bill-wave text-black"></i>';
     }
 }
 </script>
