@@ -21,16 +21,23 @@
         .gradient-text {
             font-size: 2.5rem;
             font-weight: bold;
-            background: linear-gradient(to right, #ec4899, #6366f1);
+            background: repeating-linear-gradient(to right, #ec4899, #6366f1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-align: center;
         }
+        .green-blue-gradient-text {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: repeating-linear-gradient(45deg, #007bff 10px, #28a745 20px);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     </style>
 </head>
-<body class="bg-pink-100 flex justify-center items-center min-h-screen">
+<body style="background:repeating-linear-gradient(45deg, #007bff 10px, #28a745 20px);" class="flex justify-center items-center min-h-screen">
     <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl text-center">
-        <img src="https://www.rentrip.in/uploads/dealer/100x100/187562IMGC_17229278324268.webp" alt="Your Logo Description" class="mx-auto">
+        <img src="https://www.rentrip.in/uploads/dealer/100x100/187562IMGC_17229278324268.webp" alt="Your Logo Description" class="mx-auto mb-4 w-16 h-16">
         <h1 class="gradient-text mb-4">
             Bike Model Yamaha FZS - V3
         </h1>
@@ -38,6 +45,10 @@
             <tr class="border-b">
                 <th class="text-left py-2">Deposited</th>
                 <td class="py-2"><span class="non-editable highlight-text" id="deposited">₹ 2,500.00/-</span></td>
+            </tr>
+            <tr class="border-b" id="cashCollectedRow" style="display: none;">
+                <th class="text-left py-2 underline">Cash Collected</th>
+                <td class="py-2"><span class="non-editable green-blue-gradient-text" id="cashCollected">₹0.00</span></td>
             </tr>
             <tr class="border-b">
                 <th class="text-left py-2">Expected End Time</th>
@@ -125,10 +136,6 @@
             <tr class="border-b">
                 <th class="text-left py-2">Without Petrol Cost</th>
                 <td class="py-2"><span class="non-editable highlight-text" id="withoutPetrolCost">₹ 2,500.00/-</span></td>
-            </tr>
-            <tr class="border-b" id="cashCollectedRow" style="display: none;">
-                <th class="text-left py-2">Cash Collected</th>
-                <td class="py-2"><span class="non-editable highlight-text" id="cashCollected">₹0.00</span></td>
             </tr>
         </table>
         <div class="flex justify-center space-x-4">
