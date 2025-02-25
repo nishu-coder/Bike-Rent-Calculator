@@ -142,7 +142,7 @@
             <button onclick="calculateTotal()" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Calculate</button>
             <a href="https://www.rentrip.in/dealer/profile/d40929245" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Book Again</a>
         </div>
-        <div class="mt-4">
+        <div class="mt-4 flex items-center justify-center">
             <label class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" id="useWithoutPetrolCost" class="sr-only peer" onchange="togglePaymentAmount()">
                 <div class="w-14 h-8 bg-[#ffd0fd] rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:left-1 after:bg-black after:border after:rounded-full after:h-6 after:w-6 after:transition-all">
@@ -154,12 +154,10 @@
                     </div>
                 </div>
             </label>
-            <span class="ml-3 text-lg font-bold">&nbsp; : Use Without Petrol Cost</span>
+            <span class="ml-3 text-lg font-bold">Use Without Petrol Cost</span>
         </div>
         <div id="paymentLinkContainer" class="mt-4" style="display: none;">
-            <p class="text-lg font-bold">Scan to Pay: &nbsp; &nbsp;
-            <a id="paymentLink" href="" target="_blank" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Pay Now</a>
-            </p>
+            <p class="text-lg font-bold">Scan to Pay: <a id="paymentLink" href="" target="_blank" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Pay Now</a></p>
         </div>
     </div>
 
@@ -221,8 +219,7 @@ function togglePaymentAmount() {
     const paymentAmount = useWithoutPetrolCost ? withoutPetrolCost : totalReturnCost;
     const paymentLink = document.getElementById("paymentLink");
     const paymentLinkContainer = document.getElementById("paymentLinkContainer");
-    const paymentUrl = `upi://pay?pa=paytmqr5e1kfi@ptys&pn=Your%20Name&am=${paymentAmount}&cu=INR`;
-    paymentLink.href = paymentUrl;
+    paymentLink.href = `#`;
     paymentLinkContainer.style.display = "block";
 
     // Update toggle icon
