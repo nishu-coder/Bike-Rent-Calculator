@@ -9,7 +9,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Times New Roman', sans-serif;
         }
         .highlight-text {
             font-size: 2.5rem;
@@ -29,9 +29,9 @@
     </style>
 </head>
 <body class="bg-pink-100 flex justify-center items-center min-h-screen">
-    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-4x4 text-center">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2x1 text-center">
         <h1 class="gradient-text mb-4 flex items-center justify-center">
-            <img src="https://www.rentrip.in/uploads/dealer/100x100/187562IMGC_17229278324268.webp" alt="Your Logo Description" class="mr-2">
+            <img src="https://www.rentrip.in/uploads/dealer/100x100/187562IMGC_17229278324268.webp" alt="Bike Logo" class="mr-2">
             <span>Bike Model Yamaha FZS - V3</span>
         </h1>
         <table class="w-full mb-4">
@@ -122,18 +122,16 @@
                 <th class="text-left py-2">Total Return Cost</th>
                 <td class="py-2"><span class="non-editable highlight-text" id="totalReturnCost">₹ 2,500.00/-</span></td>
             </tr>
-            <tr class="border-b" id="cashCollectedRow" style="display: none;">
-                <th class="text-left py-2">Cash Collected</th>
-                <td class="py-2"><span class="non-editable highlight-text" id="cashCollected">₹0.00</span></td>
-            </tr>
             <tr class="border-b">
                 <th class="text-left py-2">Without Petrol Cost</th>
                 <td class="py-2"><span class="non-editable highlight-text" id="withoutPetrolCost">₹ 2,500.00/-</span></td>
             </tr>
         </table>
         <div class="flex justify-center space-x-4">
-            <button onclick="calculateTotal()" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Calculate</button>
-            <a href="https://www.rentrip.in/dealer/profile/d40929245" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Book Again</a>
+        <p id="cashCollectedRow" class="text-left py-2">Cash Collected</p>
+        <p class="text-right py-2" class="non-editable highlight-text" id="cashCollected">₹0.00</p>
+        <button onclick="calculateTotal()" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Calculate</button>
+        <a href="https://www.rentrip.in/dealer/profile/d40929245" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Book Again</a>
         </div>
     </div>
 
@@ -146,6 +144,10 @@ function toggleCashInput() {
     } else {
         cashInputRow.style.display = "none";
     }
+}
+
+function formatIndianCurrency(amount) {
+    return amount.toLocaleString('en-IN', { style: 'currency', currency: 'INR' });
 }
 
 function calculateTotal() {
@@ -169,16 +171,16 @@ function calculateTotal() {
     const withoutPetrolCost = deposited - (timingExceedCost + limitExceedCost + raincoatCost + helmetCost);
 
     document.getElementById("distance").textContent = distance.toFixed(2) + " Kilometers";
-    document.getElementById("petrolCost").textContent = "₹" + petrolCost.toFixed(2);
+    document.getElementById("petrolCost").textContent = formatIndianCurrency(petrolCost);
     document.getElementById("extraKm").textContent = extraKm.toFixed(2);
-    document.getElementById("limitExceedCost").textContent = "₹" + limitExceedCost.toFixed(2);
+    document.getElementById("limitExceedCost").textContent = formatIndianCurrency(limitExceedCost);
     document.getElementById("timeDifference").value = timeDifference.toFixed(2);
-    document.getElementById("timingExceedCost").textContent = "₹" + timingExceedCost.toFixed(2);
-    document.getElementById("totalReturnCost").textContent = "₹" + totalReturnCost.toFixed(2);
-    document.getElementById("withoutPetrolCost").textContent = "₹" + withoutPetrolCost.toFixed(2);
+    document.getElementById("timingExceedCost").textContent = formatIndianCurrency(timingExceedCost);
+    document.getElementById("totalReturnCost").textContent = formatIndianCurrency(totalReturnCost);
+    document.getElementById("withoutPetrolCost").textContent = formatIndianCurrency(withoutPetrolCost);
 
     if (collectCash) {
-        document.getElementById("cashCollected").textContent = "₹" + cashAmount.toFixed(2);
+        document.getElementById("cashCollected").textContent = formatIndianCurrency(cashAmount);
         document.getElementById("cashCollectedRow").style.display = "table-row";
     } else {
         document.getElementById("cashCollectedRow").style.display = "none";
