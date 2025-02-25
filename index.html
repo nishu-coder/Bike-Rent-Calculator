@@ -31,8 +31,8 @@
 <body class="bg-pink-100 flex justify-center items-center min-h-screen">
     <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl text-center">
         <h1 class="gradient-text mb-4 flex items-center justify-center">
-            <img src="https://www.rentrip.in/uploads/dealer/100x100/187562IMGC_17229278324268.webp" alt="Your Logo Description" class="mr-2">
-            Bike Model Yamaha FZS - V3
+            <img src="https://www.rentrip.in/uploads/dealer/100x100/187562IMGC_17229278324268.webp" alt="Your Logo Description" class="mr-2 w-8 h-8">
+            <span>Bike Model Yamaha FZS - V3</span>
         </h1>
         <table class="w-full mb-4">
             <tr class="border-b">
@@ -68,7 +68,7 @@
                 <th class="text-left py-2">1+1 Helmet</th>
                 <td class="py-2">
                 <label class="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" id="bike" class="sr-only peer">
+                    <input type="checkbox" id="helmet" class="sr-only peer">
                     <div class="w-14 h-8 bg-[#ffd0fd] rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:left-1 after:bg-black after:border after:rounded-full after:h-6 after:w-6 after:transition-all">
                         <div class="absolute top-1 left-1 w-6 h-6 flex items-center justify-center">
                             <i class="fas fa-bicycle text-pink-500"></i>
@@ -76,6 +76,23 @@
                     </div>
                 </label>
             </td>
+            </tr>
+            <tr class="border-b">
+                <th class="text-left py-2">Collect Cash</th>
+                <td class="py-2">
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="collectCash" class="sr-only peer" onchange="toggleCashInput()">
+                        <div class="w-14 h-8 bg-[#ffd0fd] rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:left-1 after:bg-black after:border after:rounded-full after:h-6 after:w-6 after:transition-all">
+                            <div class="absolute top-1 left-1 w-6 h-6 flex items-center justify-center">
+                                <i class="fas fa-money-bill-wave text-pink-500"></i>
+                            </div>
+                        </div>
+                    </label>
+                </td>
+            </tr>
+            <tr class="border-b" id="cashInputRow" style="display: none;">
+                <th class="text-left py-2">Cash Amount</th>
+                <td class="py-2"><input type="number" id="cashAmount" class="border rounded-lg p-2 w-full"></td>
             </tr>
             <tr class="border-b">
                 <th class="text-left py-2">Time Difference (Hours)</th>
@@ -105,6 +122,10 @@
                 <th class="text-left py-2">Total Return Cost</th>
                 <td class="py-2"><span class="non-editable highlight-text" id="totalReturnCost">₹ 2,500.00/-</span></td>
             </tr>
+            <tr class="border-b" id="cashCollectedRow" style="display: none;">
+                <th class="text-left py-2">Cash Collected</th>
+                <td class="py-2"><span class="non-editable highlight-text" id="cashCollected">₹0.00</span></td>
+            </tr>
             <tr class="border-b">
                 <th class="text-left py-2">Without Petrol Cost</th>
                 <td class="py-2"><span class="non-editable highlight-text" id="withoutPetrolCost">₹ 2,500.00/-</span></td>
@@ -117,6 +138,16 @@
     </div>
 
 <script>
+function toggleCashInput() {
+    const cashInputRow = document.getElementById("cashInputRow");
+    const collectCash = document.getElementById("collectCash").checked;
+    if (collectCash) {
+        cashInputRow.style.display = "table-row";
+    } else {
+        cashInputRow.style.display = "none";
+    }
+}
+
 function calculateTotal() {
     const deposited = 2500;
     const startOdometer = parseFloat(document.getElementById("startOdometer").value) || 0;
@@ -124,6 +155,8 @@ function calculateTotal() {
     const raincoat = document.getElementById("raincoat").checked;
     const helmet = document.getElementById("helmet").checked;
     const timeDifference = parseFloat(document.getElementById("timeDifference").value) || 0;
+    const collectCash = document.getElementById("collectCash").checked;
+    const cashAmount = collectCash ? parseFloat(document.getElementById("cashAmount").value) || 0 : 0;
 
     const distance = endOdometer - startOdometer;
     const petrolCost = 2.7 * distance;
@@ -143,6 +176,13 @@ function calculateTotal() {
     document.getElementById("timingExceedCost").textContent = "₹" + timingExceedCost.toFixed(2);
     document.getElementById("totalReturnCost").textContent = "₹" + totalReturnCost.toFixed(2);
     document.getElementById("withoutPetrolCost").textContent = "₹" + withoutPetrolCost.toFixed(2);
+
+    if (collectCash) {
+        document.getElementById("cashCollected").textContent = "₹" + cashAmount.toFixed(2);
+        document.getElementById("cashCollectedRow").style.display = "table-row";
+    } else {
+        document.getElementById("cashCollectedRow").style.display = "none";
+    }
 }
 </script>
 
