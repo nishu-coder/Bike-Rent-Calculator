@@ -29,10 +29,10 @@
     </style>
 </head>
 <body class="bg-pink-100 flex justify-center items-center min-h-screen">
-    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2x1 text-center">
-        <h1 class="gradient-text mb-4 flex items-center justify-center">
-            <img src="https://www.rentrip.in/uploads/dealer/100x100/187562IMGC_17229278324268.webp" alt="Bike Logo" class="mr-2">
-            <span>Bike Model Yamaha FZS - V3</span>
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl text-center">
+        <img src="https://www.rentrip.in/uploads/dealer/100x100/187562IMGC_17229278324268.webp" alt="Your Logo Description" class="mx-auto">
+        <h1 class="gradient-text mb-4">
+            Bike Model Yamaha FZS - V3
         </h1>
         <table class="w-full mb-4">
             <tr class="border-b">
@@ -126,12 +126,14 @@
                 <th class="text-left py-2">Without Petrol Cost</th>
                 <td class="py-2"><span class="non-editable highlight-text" id="withoutPetrolCost">₹ 2,500.00/-</span></td>
             </tr>
+            <tr class="border-b" id="cashCollectedRow" style="display: none;">
+                <th class="text-left py-2">Cash Collected</th>
+                <td class="py-2"><span class="non-editable highlight-text" id="cashCollected">₹0.00</span></td>
+            </tr>
         </table>
         <div class="flex justify-center space-x-4">
-        <p id="cashCollectedRow" class="w-full mb-4 text-left py-2">Cash Collected</p>
-        <p class="text-right py-2" class="non-editable highlight-text" id="cashCollected">₹0.00</p><br>
-        <button onclick="calculateTotal()" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Calculate</button>
-        <a href="https://www.rentrip.in/dealer/profile/d40929245" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Book Again</a>
+            <button onclick="calculateTotal()" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Calculate</button>
+            <a href="https://www.rentrip.in/dealer/profile/d40929245" class="border border-pink-500 text-black bg-white px-4 py-2 rounded-full">Book Again</a>
         </div>
     </div>
 
@@ -144,10 +146,6 @@ function toggleCashInput() {
     } else {
         cashInputRow.style.display = "none";
     }
-}
-
-function formatIndianCurrency(amount) {
-    return amount.toLocaleString('en-IN', { style: 'currency', currency: 'INR' });
 }
 
 function calculateTotal() {
@@ -171,16 +169,16 @@ function calculateTotal() {
     const withoutPetrolCost = deposited - (timingExceedCost + limitExceedCost + raincoatCost + helmetCost);
 
     document.getElementById("distance").textContent = distance.toFixed(2) + " Kilometers";
-    document.getElementById("petrolCost").textContent = formatIndianCurrency(petrolCost);
+    document.getElementById("petrolCost").textContent = "₹" + petrolCost.toLocaleString('en-IN', { minimumFractionDigits: 2 });
     document.getElementById("extraKm").textContent = extraKm.toFixed(2);
-    document.getElementById("limitExceedCost").textContent = formatIndianCurrency(limitExceedCost);
+    document.getElementById("limitExceedCost").textContent = "₹" + limitExceedCost.toLocaleString('en-IN', { minimumFractionDigits: 2 });
     document.getElementById("timeDifference").value = timeDifference.toFixed(2);
-    document.getElementById("timingExceedCost").textContent = formatIndianCurrency(timingExceedCost);
-    document.getElementById("totalReturnCost").textContent = formatIndianCurrency(totalReturnCost);
-    document.getElementById("withoutPetrolCost").textContent = formatIndianCurrency(withoutPetrolCost);
+    document.getElementById("timingExceedCost").textContent = "₹" + timingExceedCost.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    document.getElementById("totalReturnCost").textContent = "₹" + totalReturnCost.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    document.getElementById("withoutPetrolCost").textContent = "₹" + withoutPetrolCost.toLocaleString('en-IN', { minimumFractionDigits: 2 });
 
     if (collectCash) {
-        document.getElementById("cashCollected").textContent = formatIndianCurrency(cashAmount);
+        document.getElementById("cashCollected").textContent = "₹" + cashAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 });
         document.getElementById("cashCollectedRow").style.display = "table-row";
     } else {
         document.getElementById("cashCollectedRow").style.display = "none";
