@@ -219,7 +219,8 @@ function togglePaymentAmount() {
     const paymentAmount = useWithoutPetrolCost ? withoutPetrolCost : totalReturnCost;
     const paymentLink = document.getElementById("paymentLink");
     const paymentLinkContainer = document.getElementById("paymentLinkContainer");
-    paymentLink.href = `#`;
+    const paymentUrl = `upi://pay?pa=paytmqr5e1kfi@ptys&pn=Your%20Name&am=${paymentAmount}&cu=INR`;
+    paymentLink.href = paymentUrl;
     paymentLinkContainer.style.display = "block";
 
     // Update toggle icon
